@@ -4,6 +4,6 @@ route = [
     {
         method : "POST",
         path : "/",
-        handler 
+        handler : {}
     }
 ]
