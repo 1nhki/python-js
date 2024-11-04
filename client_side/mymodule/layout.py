@@ -3,6 +3,7 @@ from PySide6.QtWidgets import (QVBoxLayout, QScrollArea, QHBoxLayout, \
                                QTextEdit, QWidget)
 from PySide6.QtCore import (Qt, QRect, QSize)
 
+
 class scrol_child_widget(QWidget) :
     def __init__(self, window : QWidget) :
         super().__init__(window)
@@ -15,7 +16,7 @@ class scrol_child_widget(QWidget) :
         layout.addWidget(self.button[1])
 
 
-        self.setLayout(layout)
+        self.setLayout(layout) 
     def add_button(self, name : str):
         pass
 

@@ -11,6 +11,7 @@ class window (QMainWindow):
         self.setWindowTitle(title)
         self.setMinimumSize(500, 500)
         
+        
     def child(self, child : QWidget):
         self.setCentralWidget(child)
 
