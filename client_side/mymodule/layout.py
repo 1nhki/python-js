@@ -3,30 +3,50 @@ from PySide6.QtWidgets import (QVBoxLayout, QScrollArea, QHBoxLayout, \
                                QTextEdit, QWidget)
 from PySide6.QtCore import (Qt, QRect, QSize)
 
-class main_window_layout():
-    def __init__(self, window: QWidget) :
-        
-        """instances"""
-        Button = []
-        Button.append(button("catch", 20, 20 ))
-        Button.append(button("back", 20, 20 )) 
+class scrol_child_widget(QWidget) :
+    def __init__(self, window : QWidget) :
+        super().__init__(window)
+        layout = QVBoxLayout() 
+        self.button = []
+        self.button.append(button("alamak", 100, 200, self))
+        self.button.append(button("TEST", 100, 200, self))
 
-        textcolumn = QTextEdit(None, window) 
-        textcolumn.setFixedSize(100,100)
+        layout.addWidget(self.button[0])
+        layout.addWidget(self.button[1])
+
+
+        self.setLayout(layout)
+    def add_button(self, name : str):
+        pass
+
+
+class main_window_layout(QWidget):
+    def __init__(self, window: QWidget) :
+        super().__init__(window)
+        """instances"""
+        textcolumn = QTextEdit(None, self) 
+        textcolumn.setFixedSize(200,200)
 
         '''scroll area'''
-        scroll_area = QScrollArea(window)
-        scroll_area.setFixedSize(100,200)
-        scroll_area_layout = QVBoxLayout()
-        scroll_area.setLayout(scroll_area_layout)
-        scroll_area.setWidget(Button[0])
-        scroll_area.setWidget(Button[1])
+
+        scroll_area = QScrollArea(self)
+        scroll_area.setGeometry(0, 0 , 100, 500)
+        scroll_area.setMinimumSize(QSize(100, 450))
+        scroll_area.setFixedWidth(200)
+
+
+        child_scroll = scrol_child_widget(scroll_area)
+        scroll_area.setWidget(child_scroll)
+        scroll_area.setWidgetResizable(True)
 
         """layout"""
         secondlayout =  QVBoxLayout()
-        secondlayout.addWidget(textcolumn)
         mainlayout = QHBoxLayout()
-        mainlayout.addWidget(scroll_area)
-        mainlayout.addLayout(secondlayout)
+        mainlayout.addWidget(scroll_area,alignment= Qt.AlignmentFlag.AlignLeft)
+        mainlayout.addWidget(textcolumn)
+        
+        self.setLayout(mainlayout)
+        self.setObjectName("window")
+ 
 
 
