@@ -3,6 +3,12 @@ from PySide6.QtWidgets import (QVBoxLayout, QScrollArea, QHBoxLayout, \
                                QTextEdit, QLabel,QWidget)
 from PySide6.QtCore import (Qt, QRect, QSize)
 
+import requests
+import json
+
+notesa = requests.get("http://localhost:5000/notes")
+test = json.loads(notesa.text)
+print(test)
 
 class scrol_child_widget(QWidget) :
     def __init__(self, window : QWidget) :
@@ -13,10 +19,7 @@ class scrol_child_widget(QWidget) :
         self.setLayout(self.layout) 
 
     def add_button(self, name : str):
-        self.button.append(button(name, 100, 50))
-        self.layout.addWidget(self.button[self.button.index()])
-
-        self.button.append(button(name, 100, 50))
+        self.button.append(button(name, 100, 150))
         self.layout.addWidget(self.button[-1])
     
 class layout_column(QWidget):
@@ -27,13 +30,17 @@ class layout_column(QWidget):
 
         self.text_column = QTextEdit()
         self.title_label = QLabel()
-        self.date_label = QLabel()
+        self.title_label.setText("Title")
+        self.title_label.setStyleSheet("font-size : 32px")
+        self.date_label = QLabel("LOREM IPSUM")
+        button_add = button("add", 60, 100, self)
         layout2 = QHBoxLayout()
         layout1.addWidget(self.title_label)
         layout1.addWidget(self.date_label)
         layout1.addWidget(self.text_column)
+        layout1.addWidget(button_add)
         self.setLayout(layout1)
-        self.setObjectName("layoutchild")
+        self.setObjectName("layoutchild")   
 
 
 class main_window_layout(QWidget):
@@ -54,6 +61,10 @@ class main_window_layout(QWidget):
 
 
         child_scroll = scrol_child_widget(scroll_area)
+        if len(test["data"]["notes"]) != 0 :
+            for i in test["data"]["notes"]:
+                child_scroll.add_button(i["title"])
+
         scroll_area.setWidget(child_scroll)
         scroll_area.setWidgetResizable(True)
 
