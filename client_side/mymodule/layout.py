@@ -10,6 +10,8 @@ notesa = requests.get("http://localhost:5000/notes")
 test = json.loads(notesa.text)
 print(test)
 
+
+
 class scrol_child_widget(QWidget) :
     def __init__(self, window : QWidget) :
         super().__init__(window)
@@ -26,31 +28,40 @@ class layout_column(QWidget):
     def __init__(self, parent: QWidget):
         super().__init__(parent)
         layout1 = QVBoxLayout()
-        """layout2 = QHBoxLayout()"""
+        self.layout2 = QVBoxLayout()
+        """self.layout2 = QHBoxLayout()"""
 
+        self.container1= QWidget(self)
+        self.container1.setLayout(layout1)
+        self.newnotes = button("add new", 50, 100, self)
+        self.newnotes.clicked.connect(self.toggle)
+        layout1.addWidget(self.newnotes, alignment= Qt.AlignmentFlag.AlignCenter)
+
+        self.container3 = QWidget(self)
+        self.container3.setLayout(self.layout2)
         self.text_column = QTextEdit()
         self.title_label = QLabel()
         self.title_label.setText("Title")
         self.title_label.setStyleSheet("font-size : 32px")
         self.date_label = QLabel("LOREM IPSUM")
         button_add = button("add", 60, 100, self)
-        layout2 = QHBoxLayout()
-        layout1.addWidget(self.title_label)
-        layout1.addWidget(self.date_label)
-        layout1.addWidget(self.text_column)
-        layout1.addWidget(button_add)
-        self.setLayout(layout1)
+
+        self.layout2.addWidget(self.title_label)
+        self.layout2.addWidget(self.date_label)
+        self.layout2.addWidget(self.text_column)
+        self.layout2.addWidget(button_add)
+        """ self.setLayout(layout1)"""
+        self.container3.setVisible(False)
         self.setObjectName("layoutchild")   
 
+    def toggle(self):
+        self.container1.setVisible(False)
+        self.container3.setVisible(True)
+        self.setLayout(self.layout2)
 
 class main_window_layout(QWidget):
     def __init__(self, window: QWidget) :
         super().__init__(window)
-        """instances"""        
-        title_label= QLabel()
-        date_label = QLabel()
-        textcolumn = QTextEdit(None, self) 
-        textcolumn.setMinimumSize(200,200)
 
         '''scroll area'''
 
